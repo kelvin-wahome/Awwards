@@ -86,3 +86,7 @@ class Project(models.Model):
     def get_posted_projects(cls):
         projects = Project.objects.all()
         return projects
+    @classmethod
+    def get_projects_on_profile(cls,profile):
+        projects = Project.objects.filter(profile__pk = profile)
+        return projects
