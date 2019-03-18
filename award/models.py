@@ -104,3 +104,7 @@ class Project(models.Model):
     def average_design(self):
         total_ratings = list(map(lambda x: x.rating, self.designrating_set.all()))
         return np.mean(total_ratings)
+
+    def average_content(self):
+        total_ratings = list(map(lambda x: x.rating, self.contentrating_set.all()))
+        return np.mean(total_ratings)
