@@ -81,3 +81,8 @@ class Project(models.Model):
     def search_project(cls,title):
         project =  cls.objects.filter(title__icontains=title)
         return project
+
+    @classmethod
+    def get_posted_projects(cls):
+        projects = Project.objects.all()
+        return projects
