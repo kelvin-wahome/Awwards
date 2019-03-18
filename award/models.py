@@ -70,3 +70,6 @@ class Project(models.Model):
 
     def update_project(self):
         self.update()
+
+    def delete_project(self):
+        self.delete()
