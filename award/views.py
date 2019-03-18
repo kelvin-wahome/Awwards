@@ -6,6 +6,7 @@ from .models import Profile, Project, UsabilityRating, DesignRating, ContentRati
 from django.contrib.auth.decorators import login_required
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from .tokens import account_activation_token
 
 
 def signup(request):
@@ -70,6 +71,23 @@ def search_results(request):
   else:
     message = "You haven't searched for anything"
     return render(request, 'search.html',{"message":message})
+@login_required(login_url='accounts/login/')
+def upload_project(request):
+    profile = Profile.objects.all()
+    for profile in profile:
+      if request.method == 'POST':
+          form = ProjectForm(request.POST, request.FILES)
+          if form.is_valid():
+              add=form.save(commit=False)
+              add.profile = profile
+              add.user = request.user
+              add.save()
+              return redirect('index')
+      else:
+          form = ProjectForm()
+
+
+      return render(request,'upload.html',locals())
 
 @login_required(login_url='/accounts/login/')
 def profile(request, user_id):
