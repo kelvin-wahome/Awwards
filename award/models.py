@@ -49,3 +49,16 @@ class Profile(models.Model):
     def filter_by_id(cls, id):
       profile = Profile.objects.filter(user = id).first()
       return profile
+
+class Project(models.Model):
+  '''
+  class that contains Project properties
+  '''
+  title = models.CharField(max_length=40,null=True, blank=True)
+  image = models.ImageField(upload_to='images/', null=True,blank=True)
+  posted_on = models.DateTimeField(auto_now_add=True)
+  description = models.TextField()
+  link = models.URLField(max_length=70)
+  user = models.ForeignKey(User,on_delete=models.CASCADE,default="",blank=True,null=True)
+  profile = models.ForeignKey(Profile,on_delete=models.CASCADE,default="",blank=True,null=True)
+  rating = models.TextField()
