@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.models import User
 from .forms import SignupForm,ProjectForm,UpdateProfileForm,DesignForm,UsabilityForm,ContentForm
-from .models import Profile,Project
+from .models import Profile,Project,UsabilityRating,DesignRating,ContentRating
 from django.contrib.auth.decorators import login_required
 
 def signup(request):
