@@ -34,3 +34,8 @@ class Profile(models.Model):
 
     def delete_profile(self):
         self.delete()
+
+    @classmethod
+    def get_profile_by_id(cls, id):
+        user_profile = Profile.objects.get(user=id)
+        return user_profile
