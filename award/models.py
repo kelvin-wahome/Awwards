@@ -100,3 +100,7 @@ class Project(models.Model):
     def get_project_by_id(cls, id):
         project = Project.objects.filter(user_id=id).all()
         return project
+
+    def average_design(self):
+        total_ratings = list(map(lambda x: x.rating, self.designrating_set.all()))
+        return np.mean(total_ratings)
