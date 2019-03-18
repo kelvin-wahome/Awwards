@@ -39,3 +39,8 @@ class Profile(models.Model):
     def get_profile_by_id(cls, id):
         user_profile = Profile.objects.get(user=id)
         return user_profile
+
+    @classmethod
+    def get_profile_by_username(cls, user):
+        profile_info = cls.objects.filter(user__contains=user)
+        return profile_info
