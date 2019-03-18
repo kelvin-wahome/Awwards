@@ -73,3 +73,11 @@ class Project(models.Model):
 
     def delete_project(self):
         self.delete()
+
+    class Meta:
+    ordering = ['posted_on']
+
+    @classmethod
+    def search_project(cls,title):
+        project =  cls.objects.filter(title__icontains=title)
+        return project
