@@ -30,4 +30,7 @@ class Profile(models.Model):
         self.save()
 
     def update_profile(self):
-    self.update()
+        self.update()
+
+    def delete_profile(self):
+        self.delete()
