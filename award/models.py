@@ -102,12 +102,38 @@ class Project(models.Model):
         return project
 
     def average_design(self):
-        total_ratings = list(map(lambda x: x.rating, self.designrating_set.all()))
+        total_ratings = list(
+            map(lambda x: x.rating, self.designrating_set.all()))
         return np.mean(total_ratings)
+
     def average_usability(self):
-        total_ratings = list(map(lambda x: x.rating, self.usabilityrating_set.all()))
+        total_ratings = list(
+            map(lambda x: x.rating, self.usabilityrating_set.all()))
         return np.mean(total_ratings)
 
     def average_content(self):
-        total_ratings = list(map(lambda x: x.rating, self.contentrating_set.all()))
+        total_ratings = list(
+            map(lambda x: x.rating, self.contentrating_set.all()))
         return np.mean(total_ratings)
+
+    def __str__(self):
+        return self.title
+        
+class DesignRating(models.Model):
+    CHOICES = (
+        (1, '1'),
+        (2, '2'),
+        (3, '3'),
+        (4, '4'),
+        (5, '5'),
+        (6, '6'),
+        (7, '7'),
+        (8, '8'),
+        (9, '9'),
+        (10, '10')
+    )
+    project = models.ForeignKey(Project)
+    pub_date = models.DateTimeField(auto_now_add=True)
+    profile = models.ForeignKey(Profile)
+    comment = models.CharField(max_length=200)
+    rating = models.IntegerField(choices=CHOICES, default=0)
