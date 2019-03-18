@@ -53,3 +53,21 @@ def profile(request, user_id):
     users = User.objects.get(id=user_id)
 
     return render(request, 'profile/profile.html',locals())
+
+@login_required(login_url='/accounts/login/')
+def update_profile(request):
+    '''
+    Function that enables one to update their profile details
+    '''
+    current_user = request.user
+    profile = Profile.objects.get(user=request.user)
+    if request.method == 'POST':
+        form = UpdateProfileForm(request.POST, request.FILES)
+        if form.is_valid():
+            profile = form.save(commit=False)
+            profile.user = current_user
+            profile.save()
+        return redirect('index')
+    else:
+        form = UpdateProfileForm()
+    return render(request, 'profile/update_profile.html', locals())
