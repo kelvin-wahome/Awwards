@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 
 
 class Profile(models.Model):
@@ -62,3 +64,6 @@ class Project(models.Model):
   user = models.ForeignKey(User,on_delete=models.CASCADE,default="",blank=True,null=True)
   profile = models.ForeignKey(Profile,on_delete=models.CASCADE,default="",blank=True,null=True)
   rating = models.TextField()
+
+  def save_project(self):
+    self.save()
