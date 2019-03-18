@@ -38,3 +38,18 @@ def index(request):
   projects = Project.get_posted_projects().order_by('-posted_on')
 
   return render(request,'index.html',locals())
+
+
+
+@login_required(login_url='/accounts/login/')
+def profile(request, user_id):
+    '''
+    Function that enables users see their profile
+    '''
+    form=DesignForm()
+    title = "Profile"
+    projects = Project.get_project_by_id(id= user_id).order_by('-posted_on')
+    profiles = Profile.objects.get(user_id=user_id)
+    users = User.objects.get(id=user_id)
+
+    return render(request, 'profile/profile.html',locals())
