@@ -18,3 +18,8 @@ class UpdateProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         exclude = ['user']
+
+class ContentForm(forms.ModelForm):
+    class Meta:
+        model = ContentRating
+        fields = ['rating',]
