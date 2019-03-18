@@ -11,8 +11,7 @@ class Profile(models.Model):
     profile_pic = models.ImageField(upload_to='images/', null=True, blank=True)
     bio = models.TextField()
     contact = models.IntegerField(blank=True, null=True,)
-    user = models.OneToOneField(
-        User, on_delete=models.CASCADE, primary_key=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 
     def __str__(self):
         return self.bio
@@ -49,21 +48,25 @@ class Profile(models.Model):
 
     @classmethod
     def filter_by_id(cls, id):
-      profile = Profile.objects.filter(user = id).first()
-      return profile
+        profile = Profile.objects.filter(user=id).first()
+        return profile
+
 
 class Project(models.Model):
-  '''
-  class that contains Project properties
-  '''
-  title = models.CharField(max_length=40,null=True, blank=True)
-  image = models.ImageField(upload_to='images/', null=True,blank=True)
-  posted_on = models.DateTimeField(auto_now_add=True)
-  description = models.TextField()
-  link = models.URLField(max_length=70)
-  user = models.ForeignKey(User,on_delete=models.CASCADE,default="",blank=True,null=True)
-  profile = models.ForeignKey(Profile,on_delete=models.CASCADE,default="",blank=True,null=True)
-  rating = models.TextField()
+    '''
+    class that contains Project properties
+    '''
+    title = models.CharField(max_length=40, null=True, blank=True)
+    image = models.ImageField(upload_to='images/', null=True, blank=True)
+    posted_on = models.DateTimeField(auto_now_add=True)
+    description = models.TextField()
+    link = models.URLField(max_length=70)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default="", blank=True, null=True)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, default="", blank=True, null=True)
+    rating = models.TextField()
 
-  def save_project(self):
-    self.save()
+    def save_project(self):
+        self.save()
+
+    def update_project(self):
+        self.update()
