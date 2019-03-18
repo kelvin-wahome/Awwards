@@ -25,3 +25,6 @@ class Profile(models.Model):
         instance.profile.save()
 
     post_save.connect(save_user_profile, sender=User)
+
+    def save_profile(self):
+        self.save()
