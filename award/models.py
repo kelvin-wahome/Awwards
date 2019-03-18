@@ -11,7 +11,8 @@ class Profile(models.Model):
     profile_pic = models.ImageField(upload_to='images/', null=True, blank=True)
     bio = models.TextField()
     contact = models.IntegerField(blank=True, null=True,)
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, primary_key=True)
 
     def __str__(self):
         return self.bio
@@ -61,8 +62,10 @@ class Project(models.Model):
     posted_on = models.DateTimeField(auto_now_add=True)
     description = models.TextField()
     link = models.URLField(max_length=70)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, default="", blank=True, null=True)
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, default="", blank=True, null=True)
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, default="", blank=True, null=True)
+    profile = models.ForeignKey(
+        Profile, on_delete=models.CASCADE, default="", blank=True, null=True)
     rating = models.TextField()
 
     def save_project(self):
@@ -75,18 +78,24 @@ class Project(models.Model):
         self.delete()
 
     class Meta:
-    ordering = ['posted_on']
+        ordering = ['posted_on']
 
     @classmethod
-    def search_project(cls,title):
-        project =  cls.objects.filter(title__icontains=title)
+    def search_project(cls, title):
+        project = cls.objects.filter(title__icontains=title)
         return project
 
     @classmethod
     def get_posted_projects(cls):
         projects = Project.objects.all()
         return projects
+
     @classmethod
-    def get_projects_on_profile(cls,profile):
-        projects = Project.objects.filter(profile__pk = profile)
+    def get_projects_on_profile(cls, profile):
+        projects = Project.objects.filter(profile__pk=profile)
         return projects
+
+    @classmethod
+    def get_project_by_id(cls, id):
+        project = Project.objects.filter(user_id=id).all()
+        return project
