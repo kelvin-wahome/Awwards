@@ -1,8 +1,12 @@
-from django.shortcuts import render,redirect,get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
-from .forms import SignupForm,ProjectForm,UpdateProfileForm,DesignForm,UsabilityForm,ContentForm
-from .models import Profile,Project,UsabilityRating,DesignRating,ContentRating
+from django.http  import HttpResponse,Http404,HttpResponseRedirect
+from .forms import SignupForm, ProjectForm, UpdateProfileForm, DesignForm, UsabilityForm, ContentForm
+from .models import Profile, Project, UsabilityRating, DesignRating, ContentRating
 from django.contrib.auth.decorators import login_required
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+
 
 def signup(request):
     if request.method == 'POST':
@@ -16,12 +20,12 @@ def signup(request):
             message = render_to_string('registration/activate_email.html', {
                 'user': user,
                 'domain': current_site.domain,
-                'uid':urlsafe_base64_encode(force_bytes(user.pk)),
-                'token':account_activation_token.make_token(user),
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': account_activation_token.make_token(user),
             })
             to_email = form.cleaned_data.get('email')
             email = EmailMessage(
-                        mail_subject, message, to=[to_email]
+                mail_subject, message, to=[to_email]
             )
             email.send()
             return HttpResponse('Please confirm your email address to complete the registration')
@@ -29,16 +33,16 @@ def signup(request):
         form = SignupForm()
     return render(request, 'registration/signup.html', {'form': form})
 
+
 @login_required(login_url='/accounts/login/')
 def index(request):
-  '''
-  view function that renders the homepage
-  '''
-  form=DesignForm()
-  projects = Project.get_posted_projects().order_by('-posted_on')
+    '''
+    view function that renders the homepage
+    '''
+    form = DesignForm()
+    projects = Project.get_posted_projects().order_by('-posted_on')
 
-  return render(request,'index.html',locals())
-
+    return render(request, 'index.html', locals())
 
 
 @login_required(login_url='/accounts/login/')
@@ -46,13 +50,14 @@ def profile(request, user_id):
     '''
     Function that enables users see their profile
     '''
-    form=DesignForm()
+    form = DesignForm()
     title = "Profile"
-    projects = Project.get_project_by_id(id= user_id).order_by('-posted_on')
+    projects = Project.get_project_by_id(id=user_id).order_by('-posted_on')
     profiles = Profile.objects.get(user_id=user_id)
     users = User.objects.get(id=user_id)
 
-    return render(request, 'profile/profile.html',locals())
+    return render(request, 'profile/profile.html', locals())
+
 
 @login_required(login_url='/accounts/login/')
 def update_profile(request):
