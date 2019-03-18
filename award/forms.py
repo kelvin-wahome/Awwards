@@ -23,3 +23,13 @@ class ContentForm(forms.ModelForm):
     class Meta:
         model = ContentRating
         fields = ['rating',]
+
+class UsabilityForm(forms.ModelForm):
+    class Meta:
+        model = UsabilityRating
+        fields = ['rating', ]
+
+class DesignForm(forms.ModelForm):
+    class Meta:
+        model = DesignRating
+        fields = ['rating', ]
