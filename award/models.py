@@ -44,3 +44,8 @@ class Profile(models.Model):
     def get_profile_by_username(cls, user):
         profile_info = cls.objects.filter(user__contains=user)
         return profile_info
+
+    @classmethod
+    def filter_by_id(cls, id):
+      profile = Profile.objects.filter(user = id).first()
+      return profile
