@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.http  import HttpResponse,Http404,HttpResponseRedirect
 from .forms import SignupForm, ProjectForm, UpdateProfileForm, DesignForm, UsabilityForm, ContentForm
+from .serializer import ProjectSerializer,ProfileSerializer
 from .models import Profile, Project, UsabilityRating, DesignRating, ContentRating
 from django.contrib.auth.decorators import login_required
 from django.template.loader import render_to_string
@@ -71,6 +72,7 @@ def search_results(request):
   else:
     message = "You haven't searched for anything"
     return render(request, 'search.html',{"message":message})
+
 @login_required(login_url='accounts/login/')
 def upload_project(request):
     profile = Profile.objects.all()
@@ -120,3 +122,53 @@ def update_profile(request):
     else:
         form = UpdateProfileForm()
     return render(request, 'profile/update_profile.html', locals())
+@login_required(login_url='/login')
+def rate_usability(request, project_id):
+    project = get_object_or_404(Project, pk=project_id)
+    if request.method == 'POST':
+        form = UsabilityForm(request.POST)
+        if form.is_valid():
+            vote = form.save(commit=False)
+            vote.project = project
+            vote.user_name = request.user
+            vote.profile = request.user.profile
+
+            vote.save()
+        return redirect('index')
+
+    return render(request, 'index.html')
+
+@login_required(login_url='/login')
+def rate_design(request, project_id):
+    project = get_object_or_404(Project, pk=project_id)
+    if request.method == 'POST':
+        form = DesignForm(request.POST)
+        if form.is_valid():
+            vote = form.save(commit=False)
+            vote.project = project
+            vote.user_name = request.user
+            vote.profile = request.user.profile
+
+            vote.save()
+        return redirect('index')
+    else:
+        form = DesignForm()
+
+    return render(request, 'index.html',locals())
+
+
+@login_required(login_url='/login')
+def rate_content(request, project_id):
+    project = get_object_or_404(Project, pk=project_id)
+    if request.method == 'POST':
+        form = ContentForm(request.POST)
+        if form.is_valid():
+            vote = form.save(commit=False)
+            vote.project = project
+            vote.user_name = request.user
+            vote.profile = request.user.profile
+
+            vote.save()
+        return redirect('index')
+
+    return render(request, 'index.html')
