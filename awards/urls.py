@@ -13,14 +13,18 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+
 from django.contrib import admin
 from django.conf.urls import url,include
 from django.contrib.auth import views
+# from rest_framework.authtoken.views import obtain_auth_token
 
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'',include('award.urls')),
+    url(r'^accounts/', include('registration.backends.simple.urls')),
+    url(r'^tinymce/', include('tinymce.urls')),
+
 
 ]
