@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.http  import HttpResponse,Http404,HttpResponseRedirect
 from .forms import SignupForm, ProjectForm, UpdateProfileForm, DesignForm, UsabilityForm, ContentForm
-from .serializer import ProjectSerializer,ProfileSerializer
+# from .serializer import ProjectSerializer,ProfileSerializer
 from .models import Profile, Project, UsabilityRating, DesignRating, ContentRating
 from django.contrib.auth.decorators import login_required
 from django.template.loader import render_to_string
@@ -122,6 +122,7 @@ def update_profile(request):
     else:
         form = UpdateProfileForm()
     return render(request, 'profile/update_profile.html', locals())
+
 @login_required(login_url='/login')
 def rate_usability(request, project_id):
     project = get_object_or_404(Project, pk=project_id)
