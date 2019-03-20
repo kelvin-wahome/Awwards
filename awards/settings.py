@@ -61,6 +61,8 @@ INSTALLED_APPS = [
     'bootstrap4',
     'bootstrap3',
     'tinymce',
+    'rest_framework',
+    'rest_framework.authtoken',
     'award.apps.AwardConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -69,7 +71,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    )
+}
+STAR_RATINGS_RERATE = False
+STAR_RATINGS_RANGE = 5
+STAR_RATINGS_ANONYMOUS = True
 
+LOGIN_REDIRECT_URL = 'index'
 MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
