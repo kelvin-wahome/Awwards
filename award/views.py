@@ -29,7 +29,7 @@ def signup(request):
             user.is_active = False
             user.save()
             current_site = get_current_site(request)
-            mail_subject = 'Activate your Awards account.'
+            mail_subject = 'Activate your Awwwards account.'
             message = render_to_string('registration/activate_email.html', {
                 'user': user,
                 'domain': current_site.domain,
